@@ -14,6 +14,11 @@ const serviceAccount = require("./serviceAccount.json");
 const app = initializeApp({
   credential: cert(serviceAccount),
 });
-const db = getFirestore(app);
 
-module.exports = { db };
+try {
+  const db = getFirestore(app);
+  console.log("Firestore connected");
+  module.exports = { db };
+} catch (error) {
+  console.error("Error getting Firestore:", error);
+}

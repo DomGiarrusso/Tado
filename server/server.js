@@ -60,9 +60,35 @@ app.post("/tado/new", async (req, res) => {
   }
 });
 
+app.patch("/tado/update/:id", async (req, res) => {
+  const updateId = req.params.id;
+  const updateData = req.body;
+  const updateTaskRef = db.collection("TadoList").doc(updateId);
+  try {
+    await updateTaskRef.update(updateData);
+    console.log("Updated Task");
+    res.json({
+      message: "Task updated successfully",
+      id: updateId,
+      data: updateData,
+    });
+  } catch (error) {
+    console.error("Error updating task:", error);
+    res.status(500).json({ message: "Error updating task" });
+  }
+});
+
 app.delete("/tado/delete/:id", async (req, res) => {
-  const result = await tadoSchema.findByIDandDelete(req.params.id);
-  res.json(result);
+  const deleteId = req.params.id;
+  const deleteTaskRef = db.collection("TadoList").doc(deleteId);
+  try {
+    await deleteTaskRef.delete();
+    res.json({ message: "Deleted Task successfully" });
+    console.log("Delete Task from database");
+  } catch (error) {
+    console.error("Error deleting Task from database:", error);
+    res.status(500).json({ message: "Error deleting Task" });
+  }
 });
 
 getTado();

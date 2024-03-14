@@ -2,7 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const { db } = require("./firebase.js");
-const { tadoSchema } = require("./models/todo.js");
+//const { tadoSchema } = require("./models/todo.js");
 require("dotenv").config();
 
 // Instialization

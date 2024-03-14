@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import TadoItem from "./components/TadoItem";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // useState Array
+  const [items, setItems] = useState([]);
+
+  // sample data if needed for testing
+  /* const sampleData = {
+    lPbZSMMYl9DVVoXM9JIy: { newTaskTest: "Dom" },
+    GabcDEf456GHIJ789kl: { newTaskTest: "Value2" },
+    Yxyz123ABC456DEF789: { newTaskTest: "Value3" },
+  }; */
+
+  // useEffect to run GetTados every render
+  useEffect(() => {
+    getTados();
+  }, []);
+
+  const getTados = () => {
+    fetch("http://localhost:4001/tado")
+      .then((res) => res.json())
+      .then((data) => {
+        const tados = data["tados"];
+        setItems(tados);
+      })
+      .catch((err) => console.log(err));
+  };
+  console.log(items);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container">
+      <div className="heading">
+        <h1>Tado</h1>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <div className="form">
+        <input type="text"></input>
+        <button>
+          <span>add</span>
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <div className="tadoList">
+        {Object.entries(items).map(([key, value]) => (
+          <TadoItem key={key} value={value.newTaskTest} setItems={setItems} />
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;

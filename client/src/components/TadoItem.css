@@ -1,0 +1,43 @@
+.tado {
+  padding: 10px;
+  border-radius: 13px;
+  background-color: black;
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 0.2fr 3fr 0.3fr 0.3fr;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  transition: 0.4s;
+  display: flex;
+}
+
+.check-complete .checkbox {
+  background-color: green;
+}
+
+.check-complete .text {
+  text-decoration: line-through;
+}
+
+.text {
+  margin-left: 1rem;
+}
+
+.edit-tado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-tado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

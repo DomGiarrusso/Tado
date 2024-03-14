@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import TadoItem from "./components/TadoItem";
 import "./App.css";
 
+const apiBase = "http://localhost:4001/tado";
 function App() {
   // useState Array
-  const [items, setItems] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [input, setInput] = useState("");
 
   // sample data if needed for testing
   /* const sampleData = {
@@ -18,16 +20,36 @@ function App() {
     getTados();
   }, []);
 
+  // change the input state
+  const inputChange = (e) => {
+    setInput(e.target.value);
+  };
+
   const getTados = () => {
-    fetch("http://localhost:4001/tado")
+    fetch(apiBase)
       .then((res) => res.json())
       .then((data) => {
         const tados = data["tados"];
-        setItems(tados);
+        setTasks(tados);
       })
       .catch((err) => console.log(err));
   };
-  console.log(items);
+
+  const addTask = async () => {
+    const data = await fetch(apiBase + "/new", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        task: input,
+      }),
+    }).then((res) => res.json());
+    await getTados();
+    setInput("");
+  };
+
+  console.log(tasks);
 
   return (
     <div className="container">
@@ -35,15 +57,24 @@ function App() {
         <h1>Tado</h1>
       </div>
       <div className="form">
-        <input type="text"></input>
-        <button>
+        <input type="text" value={input} onChange={inputChange}></input>
+        <button onClick={() => addTask()}>
           <span>add</span>
         </button>
       </div>
       <div className="tadoList">
-        {Object.entries(items).map(([key, value]) => (
-          <TadoItem key={key} value={value.newTaskTest} setItems={setItems} />
-        ))}
+        {Object.entries(tasks).map(([key, value]) => {
+          console.log(key + " " + value.task);
+          return (
+            <TadoItem
+              key={key}
+              value={value.task}
+              id={key}
+              setTasks={setTasks}
+            />
+          );
+        })}
+        ;
       </div>
     </div>
   );

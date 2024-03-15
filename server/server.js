@@ -83,7 +83,7 @@ app.delete("/tado/delete/:id", async (req, res) => {
   const deleteTaskRef = db.collection("TadoList").doc(deleteId);
   try {
     await deleteTaskRef.delete();
-    res.json({ message: "Deleted Task successfully" });
+    res.json({ message: "Deleted Task successfully", id: deleteId });
     console.log("Delete Task from database");
   } catch (error) {
     console.error("Error deleting Task from database:", error);

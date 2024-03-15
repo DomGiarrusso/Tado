@@ -4,7 +4,7 @@ import "./TadoItem.css";
 const apiBase = "http://localhost:4001/tado";
 
 function TadoItem(props) {
-  const { value, id, setTasks } = props;
+  const { value, id, completed, setTasks } = props;
 
   const deleteTado = async (id) => {
     console.log("hello" + id);
@@ -16,16 +16,21 @@ function TadoItem(props) {
         throw new Error("Failed to delete a task");
       }
       const data = await apiDelete.json();
-      setTasks((tasks) => tasks.filter((task) => task.task !== data.task));
+      console.log(data);
+      setTasks((tasks) =>
+        Object.fromEntries(
+          Object.entries(tasks).filter(([key, value]) => key !== data.id)
+        )
+      );
     } catch (error) {
       console.error("Error updating task status:", error);
     }
   };
 
   return (
-    <div className="tado">
+    <div className={"tado" + (completed ? " check-complete" : "")} key={id}>
       <div className="checkbox"></div>
-      <div className="text">{id + " " + value}</div>
+      <div className="text">{value}</div>
       <div className="edit-tado">
         <span>edit</span>
       </div>

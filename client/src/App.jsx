@@ -5,7 +5,7 @@ import "./App.css";
 const apiBase = "http://localhost:4001/tado";
 function App() {
   // useState Array
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([]); //Note that task is not Array but is an object
   const [input, setInput] = useState("");
 
   // sample data if needed for testing
@@ -43,13 +43,12 @@ function App() {
       },
       body: JSON.stringify({
         task: input,
+        completed: false,
       }),
     }).then((res) => res.json());
     await getTados();
     setInput("");
   };
-
-  console.log(tasks);
 
   return (
     <div className="container">
@@ -64,17 +63,17 @@ function App() {
       </div>
       <div className="tadoList">
         {Object.entries(tasks).map(([key, value]) => {
-          console.log(key + " " + value.task);
+          console.log(key + " " + value.task + " " + value.completed);
           return (
             <TadoItem
               key={key}
               value={value.task}
               id={key}
+              completed={value.completed}
               setTasks={setTasks}
             />
           );
         })}
-        ;
       </div>
     </div>
   );

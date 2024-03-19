@@ -16,7 +16,7 @@ function TadoItem(props) {
         throw new Error("Failed to delete a task");
       }
       const data = await apiDelete.json();
-      console.log(data);
+      console.log("delete" + data);
       setTasks((tasks) =>
         Object.fromEntries(
           Object.entries(tasks).filter(([key, value]) => key !== data.id)
@@ -27,9 +27,46 @@ function TadoItem(props) {
     }
   };
 
+  const checkboxTado = async (id, completed) => {
+    console.log("checktest" + id);
+    try {
+      const apiPatch = await fetch(apiBase + "/update/" + id, {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          completed: completed,
+        }),
+      });
+      if (!apiPatch.ok) {
+        throw new Error("Failed to update completed");
+      }
+      setTasks((tasks) =>
+        Object.fromEntries(
+          Object.entries(tasks).map(([key, value]) => {
+            if (key === id) {
+              return [key, { ...value, completed: completed }];
+            }
+            return [key, value];
+          })
+        )
+      );
+      const patchData = await apiPatch.json();
+      console.log(patchData);
+    } catch (error) {
+      console.error("Error updating checkbox value:", error);
+    }
+  };
+
   return (
     <div className={"tado" + (completed ? " check-complete" : "")} key={id}>
-      <div className="checkbox"></div>
+      <input
+        type="checkbox"
+        defaultChecked={completed}
+        onClick={() => checkboxTado(id, !completed)}
+      ></input>
+      {/* <div className="checkbox"></div> */}
       <div className="text">{value}</div>
       <div className="edit-tado">
         <span>edit</span>

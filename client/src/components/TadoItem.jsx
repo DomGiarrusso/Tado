@@ -28,11 +28,7 @@ function TadoItem(props) {
       }
       const data = await apiDelete.json();
       console.log("delete" + data);
-      setTasks((tasks) =>
-        Object.fromEntries(
-          Object.entries(tasks).filter(([key, value]) => key !== data.id)
-        )
-      );
+      setTasks((tasks) => tasks.filter((task) => task.id !== data.id));
     } catch (error) {
       console.error("Error updating task status:", error);
     }
@@ -55,15 +51,14 @@ function TadoItem(props) {
         throw new Error("Failed to update completed");
       }
       setTasks((tasks) =>
-        Object.fromEntries(
-          Object.entries(tasks).map(([key, value]) => {
-            if (key === id) {
-              return [key, { ...value, completed: completed }];
-            }
-            return [key, value];
-          })
-        )
+        tasks.map((task) => {
+          if (task.id === id) {
+            return { ...task, completed: completed };
+          }
+          return task;
+        })
       );
+
       const patchData = await apiPatch.json();
       console.log(patchData);
     } catch (error) {
@@ -76,7 +71,7 @@ function TadoItem(props) {
   };
 
   // Updates Value/Task
-  const updateValue = async (id, task) => {
+  const updateValue = async (id, updatedTask) => {
     try {
       const apiPatch = await fetch(apiBase + "/update/" + id, {
         method: "PATCH",
@@ -84,22 +79,22 @@ function TadoItem(props) {
           "content-type": "application/json",
         },
         body: JSON.stringify({
-          task: task,
+          task: updatedTask,
+          updatedAt: Date(),
         }),
       });
       if (!apiPatch.ok) {
         throw new Error("Failed to update completed");
       }
       setTasks((tasks) =>
-        Object.fromEntries(
-          Object.entries(tasks).map(([key, value]) => {
-            if (key === id) {
-              return [key, { ...value, task: task }];
-            }
-            return [key, value];
-          })
-        )
+        tasks.map((task) => {
+          if (task.id === id) {
+            return { ...task, task: updatedTask };
+          }
+          return task;
+        })
       );
+
       setEditMode(false);
       const patchData = await apiPatch.json();
       console.log(patchData);
@@ -107,6 +102,8 @@ function TadoItem(props) {
       console.error("Error updating task value:", error);
     }
   };
+  /* let date = Date();
+  console.log(date); */
 
   return (
     <div className={"tado" + (completed ? " check-complete" : "")} key={id}>

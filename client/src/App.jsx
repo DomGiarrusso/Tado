@@ -3,6 +3,7 @@ import TadoItem from "./components/TadoItem";
 import "./App.css";
 
 const apiBase = "http://localhost:4001/tado";
+
 function App() {
   // useState Array
   const [tasks, setTasks] = useState([]); //Note that task is not Array but is an object
@@ -10,7 +11,7 @@ function App() {
 
   // sample data if needed for testing
   /* const sampleData = {
-    lPbZSMMYl9DVVoXM9JIy: { newTaskTest: "Dom" },
+    lPbZSMMYl9DVVoXM9JIy: { newTaskTest: "Dom", createdAt:  },
     GabcDEf456GHIJ789kl: { newTaskTest: "Value2" },
     Yxyz123ABC456DEF789: { newTaskTest: "Value3" },
   }; */
@@ -29,7 +30,10 @@ function App() {
     fetch(apiBase)
       .then((res) => res.json())
       .then((data) => {
-        const tados = data["tados"];
+        const tados = Object.keys(data.tados).map((key) => ({
+          id: key,
+          ...data.tados[key],
+        }));
         setTasks(tados);
       })
       .catch((err) => console.log(err));
@@ -44,12 +48,27 @@ function App() {
       body: JSON.stringify({
         task: input,
         completed: false,
+        createdAt: Date(),
+        updatedAt: Date(),
       }),
     }).then((res) => res.json());
     await getTados();
     setInput("");
   };
+  const sortedData = tasks.sort((a, b) => {
+    const createdAtComparison = new Date(b.createdAt) - new Date(a.createdAt);
+    if (createdAtComparison !== 0) {
+      return createdAtComparison;
+    }
+    const updatedAtComparison = new Date(b.updatedAt) - new Date(a.updatedAt);
+    if (updatedAtComparison !== 0) {
+      return updatedAtComparison;
+    }
 
+    return a.id - b.id; // If createdAt and updatedAt are equal, sort by id
+  });
+
+  console.log(sortedData);
   return (
     <div className="container">
       <div className="heading">
@@ -62,14 +81,14 @@ function App() {
         </button>
       </div>
       <div className="tadoList">
-        {Object.entries(tasks).map(([key, value]) => {
-          console.log(key + " " + value.task + " " + value.completed);
+        {tasks.map((task) => {
+          console.log(task.id + " " + task.task + " " + task.completed);
           return (
             <TadoItem
-              key={key}
-              value={value.task}
-              id={key}
-              completed={value.completed}
+              key={task.id}
+              value={task.task}
+              id={task.id}
+              completed={task.completed}
               setTasks={setTasks}
             />
           );

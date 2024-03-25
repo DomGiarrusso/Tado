@@ -107,11 +107,15 @@ function TadoItem(props) {
 
   return (
     <div className={"tado" + (completed ? " check-complete" : "")} key={id}>
-      <input
-        type="checkbox"
-        defaultChecked={completed}
-        onClick={() => checkboxTado(id, !completed)}
-      />
+      <label className="check-container">
+        <input
+          type="checkbox"
+          defaultChecked={completed}
+          onClick={() => checkboxTado(id, !completed)}
+        />
+        <span className="checkmark"></span>
+      </label>
+
       {/* <div className="checkbox"></div> */}
       {editMode ? (
         <>

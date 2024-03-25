@@ -11,7 +11,7 @@
 }
 
 .container {
-  max-width: 30rem;
+  max-width: 40rem;
   padding: 32px;
   margin: 0 auto;
 }
@@ -26,6 +26,18 @@
 }
 
 .form input {
+  border-radius: 13px;
+  border-style: solid;
+  border-color: gray;
   width: 85%;
   padding: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }

@@ -18,6 +18,8 @@
 
 .heading {
   text-align: center;
+  font-family: "Righteous", sans-serif;
+  font-size: x-large;
 }
 
 .form {
@@ -28,11 +30,12 @@
 .form input {
   border-radius: 13px;
   border-style: solid;
-  border-color: gray;
+  border-color: #343a40;
   width: 85%;
   padding: 3px;
   padding-left: 10px;
   padding-right: 10px;
+  font-size: medium;
 }
 
 @media (max-width: 576px) {

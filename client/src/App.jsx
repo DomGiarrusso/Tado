@@ -72,7 +72,7 @@ function App() {
   return (
     <div className="container">
       <div className="heading">
-        <h1>Tado</h1>
+        <h1>TADO</h1>
       </div>
       <div className="form">
         <input type="text" value={input} onChange={inputChange}></input>

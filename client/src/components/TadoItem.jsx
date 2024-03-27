@@ -14,7 +14,7 @@ TadoItem.propTypes = {
 function TadoItem(props) {
   const { value, id, completed, setTasks } = props;
   const [editMode, setEditMode] = useState(false);
-  const [editValue, setEditValue] = useState("");
+  const [editValue, setEditValue] = useState(value);
 
   // Deletes task
   const deleteTado = async (id) => {

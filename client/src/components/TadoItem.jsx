@@ -129,8 +129,8 @@ function TadoItem(props) {
           <div className="edit-tado" onClick={() => updateValue(id, editValue)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="30"
+              height="30"
               fill="currentColor"
               className="bi bi-floppy-fill"
               viewBox="0 0 16 16"
@@ -146,8 +146,8 @@ function TadoItem(props) {
           <div className="edit-tado" onClick={() => setEditMode(true)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="30"
+              height="30"
               fill="currentColor"
               className="bi bi-wrench"
               viewBox="0 0 16 16"
@@ -161,8 +161,8 @@ function TadoItem(props) {
       <div className="delete-tado" onClick={() => deleteTado(id)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
+          width="30"
+          height="30"
           fill="currentColor"
           className="bi bi-trash-fill"
           viewBox="0 0 16 16"

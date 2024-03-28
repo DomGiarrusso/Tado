@@ -11,7 +11,7 @@
 }
 
 .container {
-  max-width: 40rem;
+  max-width: 60rem;
   padding: 32px;
   margin: 0 auto;
 }
@@ -19,7 +19,7 @@
 .heading {
   text-align: center;
   font-family: "Righteous", sans-serif;
-  font-size: x-large;
+  font-size: xx-large;
 }
 
 .form {
@@ -28,19 +28,34 @@
 }
 
 .form input {
-  border-radius: 13px;
+  border-radius: 16px;
   border-style: solid;
   border-color: #343a40;
   width: 90%;
-  padding: 3px;
+  padding: 12px;
   padding-left: 10px;
   padding-right: 10px;
-  font-size: medium;
+  font-size: x-large;
 }
 
 @media (max-width: 576px) {
   .container {
+    width: 100%;
+
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .container .checkmark,
+  .edit-tado,
+  .delete-tado {
+    transform: scale(0.7);
+  }
+  .container .text-edit {
+    font-size: large;
+    margin: 0;
+  }
+  .container .text {
+    font-size: large;
   }
 }

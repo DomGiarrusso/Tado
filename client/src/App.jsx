@@ -40,21 +40,27 @@ function App() {
   };
 
   const addTask = async () => {
-    const data = await fetch(apiBase + "/new", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        task: input,
-        completed: false,
-        createdAt: Date(),
-        updatedAt: Date(),
-      }),
-    }).then((res) => res.json());
-    await getTados();
-    setInput("");
+    if (input === "") {
+      console.log("Input cannot empty");
+      alert("Input cannot empty");
+    } else {
+      const data = await fetch(apiBase + "/new", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          task: input,
+          completed: false,
+          createdAt: Date(),
+          updatedAt: Date(),
+        }),
+      }).then((res) => res.json());
+      await getTados();
+      setInput("");
+    }
   };
+
   const sortedData = tasks.sort((a, b) => {
     const createdAtComparison = new Date(b.createdAt) - new Date(a.createdAt);
     if (createdAtComparison !== 0) {
@@ -68,21 +74,26 @@ function App() {
     return a.id - b.id; // If createdAt and updatedAt are equal, sort by id
   });
 
-  console.log(sortedData);
+  /* console.log(sortedData);  Used for Debugging*/
   return (
     <div className="container">
       <div className="heading">
         <h1>TADO</h1>
       </div>
       <div className="form">
-        <input type="text" value={input} onChange={inputChange}></input>
+        <input
+          type="text"
+          placeholder="Task"
+          value={input}
+          onChange={inputChange}
+        ></input>
         <button onClick={() => addTask()}>
-          <span>add</span>
+          <span>+</span>
         </button>
       </div>
       <div className="tadoList">
         {tasks.map((task) => {
-          console.log(task.id + " " + task.task + " " + task.completed);
+          /* console.log(task.id + " " + task.task + " " + task.completed); Used for debugging*/
           return (
             <TadoItem
               key={task.id}
